@@ -1,6 +1,6 @@
 # Simple SQL Query Optimizer ⚙️
 
-**Developed collaboratively by team FIERY-FIVE.**
+**Developed collaboratively by team FIERY-FIVE under DBMS LAB Coursework.**
 
 This repository houses a custom-built, cost-based SQL Query Optimizer developed in C++. The system is designed to demonstrate how modern relational database systems internally estimate the cost of query execution and select optimized execution strategies. 
 
