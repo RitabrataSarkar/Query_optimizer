@@ -1,15 +1,15 @@
 # Simple Query Optimizer (DBMS Lab)
 
-A simplified **cost-based query optimizer** in C++ for DBMS lab demonstration.
+A robust **cost-based query optimizer** in C++ for DBMS lab demonstration. The optimizer parses SQL queries, models query costs, and generates execution strategies, applying heuristics and memory estimation strategies.
 
 ## Implemented Pipeline
 
-1. Query Input (CLI)
-2. Logical Query Plan Generation
-3. Candidate Plan Enumeration
-4. Cost Estimation
-5. Optimal Plan Selection
-6. Optimized Plan Output
+1. **Query Input (CLI)**: Accepts SQL commands.
+2. **Logical Query Plan Generation**: Translates into an internal Node Tree.
+3. **Candidate Plan Enumeration**: Exhaustively generates candidate trees using a Left-Deep DFS search.
+4. **Pruning & Heuristics**: Applies pre-sort heuristics to base-plans to heavily speed up the optimizer's pathfinding execution.
+5. **Multi-Dimensional Cost Estimation**: Computes explicit IO, CPU, and Memory usage costs during optimization.
+6. **Optimal Plan Selection & Output**: Top candidate rendering.
 
 ## Supported SQL Subset
 
@@ -34,33 +34,40 @@ WHERE employees.salary > 50000;
   - Hash Join
   - Merge Join
 
-## Cost Model (Simplified)
+## Cost Model 
 
-- Base scan cost + filter CPU cost
-- Join output rows estimated using selectivity
-- Join cost formulas differ by join algorithm
-- Lowest estimated cost plan is selected
+The optimizer breaks down costs into distinct evaluation parameters:
+- **CPU Cost**: Estimated compute for scan iterations and join conditions based on algorithm overhead.
+- **IO Cost**: Disk page access approximations.
+- **Memory Cost**: Memory buffers consumed by tracking variables. 
 
 ## Project Structure
 
-- `include/`: headers for parser, model, statistics, cost estimator, enumerator, optimizer, printer
-- `src/`: C++ implementations and CLI entry point
+- `include/`: robust headers containing modern `[[nodiscard]]` and secure memory paradigms.
+- `src/`: C++ implementations, cost calculation logic, and CLI entry point.
 - `examples/`: sample SQL queries
+- `test_suite.py`: Automated testing framework
 
 ## Build
 
 ```bash
-cmake -S . -B build
-cmake --build build
+mkdir build
+cd build
+cmake ..
+cmake --build .
 ```
 
 ## Run
 
 ```bash
+# Executable
 ./build/simple_query_optimizer
+
+# Integration Test Suite
+python test_suite.py
 ```
 
-On Windows with MSVC generator, executable may be under `build/Debug/`.
+On Windows with MSVC generator, the built executable might be located at `build/Debug/simple_query_optimizer.exe`.
 
 ## CLI Commands
 
@@ -68,8 +75,8 @@ On Windows with MSVC generator, executable may be under `build/Debug/`.
 - `stats` : show tables in statistics catalog
 - `exit` : quit
 
-## Notes and Scope
+## Project Features and Scope
 
-- This is a teaching project, not a production SQL optimizer.
-- Parsing is intentionally strict and supports a limited SQL grammar.
-- Plan enumeration is left-deep and capped by max candidate count for tractability.
+- Represents fundamental cost-based parsing techniques inside relational paradigms.
+- Plan enumeration is heavily pruned by pre-sorting cardinality calculations prior to execution.
+- Includes thorough error handling through localized `OptimizerException` derivations.
