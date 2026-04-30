@@ -1,0 +1,1 @@
+SELECT s.name, s.dept_name FROM student s, department d WHERE s.dept_name = d.dept_name AND s.tot_cred > 100
